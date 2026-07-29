@@ -18,7 +18,7 @@
     --ink:#2F2F2F;
     --ink-muted:#726A5E;
     --line:#D9CFBD;
-    --accent:#FFA14A;
+    --accent:#2FAE66;
     --accent-on:#726A5E;
   }
 
@@ -53,7 +53,7 @@
   a{ color:inherit; text-decoration:none; }
 
   .wrap{
-    max-width:920px;
+    max-width:1180px;
     margin:auto;
     padding:0 32px;
   }
@@ -187,17 +187,18 @@
     letter-spacing:-.01em;
   }
 
-  /* ---------- editions (CTA): the one dark, bold moment on the page ---------- */
+  /* ---------- editions (CTA): light bordered panel, white cards ---------- */
 
   .stage{
-    background:var(--ink);
-    color:var(--paper);
-    margin:0 -32px;
-    padding:56px 32px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:36px;
+    color:var(--ink);
   }
 
   .stage .section-head .kicker{ color:var(--accent); }
-  .stage .section-head h2{ color:var(--paper); }
+  .stage .section-head h2{ color:var(--ink); }
 
   .editions{
     display:grid;
@@ -208,17 +209,18 @@
   .edition{
     display:flex;
     flex-direction:column;
-    padding:30px 28px;
-    background:transparent;
-    border:1px solid #46443f;
-    border-radius:4px;
-    transition:border-color .2s ease, transform .2s ease, background .2s ease;
+    padding:26px 26px;
+    background:#FFFFFF;
+    border:1px solid transparent;
+    border-radius:12px;
+    box-shadow:0 1px 2px rgba(47,47,47,.04);
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
   }
 
   .edition:hover{
     border-color:var(--accent);
-    background:#3a3833;
     transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(47,47,47,.08);
   }
 
   .edition .tag{
@@ -227,7 +229,7 @@
     color:var(--accent);
     text-transform:uppercase;
     letter-spacing:.06em;
-    margin-bottom:16px;
+    margin-bottom:14px;
   }
 
   .edition h3{
@@ -236,70 +238,74 @@
     font-weight:500;
     font-size:var(--fs-h3);
     letter-spacing:-.01em;
+    color:var(--ink);
     margin-bottom:10px;
   }
 
   .edition p{
-    color:#B8B2A6;
+    color:var(--ink-muted);
     font-size:14.5px;
     line-height:1.6;
     flex:1;
   }
 
   .edition .cta{
-    margin-top:22px;
+    margin-top:20px;
     display:flex;
     align-items:center;
     gap:8px;
     font-size:14px;
     font-weight:600;
-    color:var(--paper);
+    color:var(--accent);
   }
 
   .edition .cta .arrow{ transition:transform .2s ease; color:var(--accent); }
   .edition:hover .cta .arrow{ transform:translateX(4px); }
 
-  /* ---------- roadmap ---------- */
+  /* ---------- roadmap: white cards with numbered rings ---------- */
 
   .roadmap{
-    display:flex;
-    flex-direction:column;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
   }
 
   .road-row{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:18px 0;
-    border-top:1px solid var(--line);
+    flex-direction:column;
+    align-items:flex-start;
+    padding:24px 24px;
+    background:#FFFFFF;
+    border:1px solid var(--line);
+    border-radius:12px;
   }
 
-  .road-row:last-child{ border-bottom:1px solid var(--line); }
+  .road-num{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    border:1.5px solid var(--accent);
+    color:var(--accent);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:16px;
+  }
 
   .road-row h4{
-    font-family:'Fraunces',serif;
-    font-optical-sizing:auto;
-    font-weight:500;
-    font-size:18px;
-    margin-bottom:5px;
+    font-weight:600;
+    font-size:15.5px;
+    margin-bottom:6px;
+    color:var(--ink);
   }
 
   .road-row p{
     color:var(--ink-muted);
     font-size:13.5px;
-    max-width:48ch;
-  }
-
-  .status{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:11.5px;
-    color:var(--ink-muted);
-    border:1px solid var(--line);
-    padding:5px 11px;
-    border-radius:20px;
-    white-space:nowrap;
-    flex-shrink:0;
-    margin-left:20px;
+    line-height:1.55;
   }
 
   /* ---------- quotes ---------- */
@@ -486,10 +492,45 @@
     .portrait-card, .portrait-frame::before{ width:140px; height:140px; }
   }
 
+  /* ---------- fullscreen toggle ---------- */
+
+  .fs-toggle{
+    position:fixed;
+    top:22px;
+    right:22px;
+    z-index:50;
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    opacity:.55;
+    transition:opacity .2s ease, transform .2s ease;
+  }
+
+  .fs-toggle:hover{ opacity:1; transform:scale(1.06); }
+
+  .fs-toggle svg{ width:16px; height:16px; }
+
+  .fs-toggle .icon-exit{ display:none; }
+
+  body.is-fullscreen .fs-toggle .icon-enter{ display:none; }
+  body.is-fullscreen .fs-toggle .icon-exit{ display:block; }
+
+  @media(max-width:600px){
+    .fs-toggle{ top:14px; right:14px; width:34px; height:34px; }
+  }
+
   @media(max-width:680px){
     .wrap{ padding:0 22px; }
-    .stage{ margin:0 -22px; padding:44px 22px; }
+    .stage{ padding:22px; border-radius:14px; }
     .editions{ grid-template-columns:1fr; }
+    .roadmap{ grid-template-columns:1fr; }
     .quotes{ grid-template-columns:1fr; }
     .metrics{ flex-wrap:wrap; row-gap:20px; }
     .metric{ margin-right:28px; padding-right:28px; }
@@ -500,6 +541,11 @@
 </head>
 
 <body>
+
+<button class="fs-toggle" id="fsToggle" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+  <svg class="icon-enter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+  <svg class="icon-exit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></svg>
+</button>
 
 <div class="wrap">
 
@@ -561,19 +607,15 @@
     <div class="roadmap">
 
       <div class="road-row">
-        <div>
-          <h4>Case studies</h4>
-          <p>How Swiggy, Slice, Zerodha and Notion built real threads people wanted to join.</p>
-        </div>
-        <div class="status">Writing</div>
+        <div class="road-num">01</div>
+        <h4>Case studies</h4>
+        <p>How Swiggy, Slice, Zerodha and Notion built real threads people wanted to join.</p>
       </div>
 
       <div class="road-row">
-        <div>
-          <h4>The research behind it</h4>
-          <p>Methodology, sources, and the raw notes this playbook was built from.</p>
-        </div>
-        <div class="status">Writing</div>
+        <div class="road-num">02</div>
+        <h4>The research behind it</h4>
+        <p>Methodology, sources, and the raw notes this playbook was built from.</p>
       </div>
 
     </div>
@@ -667,6 +709,22 @@
   </footer>
 
 </div>
+
+<script>
+  const fsToggle = document.getElementById('fsToggle');
+
+  fsToggle.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+    } else {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  document.addEventListener('fullscreenchange', () => {
+    document.body.classList.toggle('is-fullscreen', !!document.fullscreenElement);
+  });
+</script>
 
 </body>
 </html>
